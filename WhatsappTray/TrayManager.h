@@ -30,7 +30,7 @@
 class TrayManager
 {
 public:
-	TrayManager(HWND _hwndWhatsappTray);
+	TrayManager(HWND _hwndWhatsappTray, HWND _hwndWhatsapp = NULL);
 	~TrayManager() { }
 	void MinimizeWindowToTray(HWND hwnd);
 	void CloseWindowFromTray(HWND hwnd);

@@ -32,10 +32,12 @@ using namespace Gdiplus;
 #undef MODULE_NAME
 #define MODULE_NAME "TrayManager::"
 
-TrayManager::TrayManager(HWND _hwndWhatsappTray)
+TrayManager::TrayManager(HWND _hwndWhatsappTray, HWND _hwndWhatsapp)
 	: _hwndWhatsappTray(_hwndWhatsappTray)
 	, _hwndItems { 0 }
 {
+	if (_hwndWhatsapp)
+		AddWindowToTray(_hwndWhatsapp);
 }
 
 void TrayManager::MinimizeWindowToTray(HWND hwnd)
@@ -51,7 +53,7 @@ void TrayManager::MinimizeWindowToTray(HWND hwnd)
 		hwnd = GetAncestor(hwnd, GA_ROOT);
 	}
 
-	AddWindowToTray(hwnd);
+	//AddWindowToTray(hwnd);
 
 	// Hide window
 	// NOTE: The SW_MINIMIZE is important for the case when close-to-tray-feature is used:
@@ -163,7 +165,7 @@ void TrayManager::RestoreWindowFromTray(HWND hwnd)
 {
 	ShowWindow(hwnd, SW_RESTORE);
 	SetForegroundWindow(hwnd);
-	RemoveTrayIcon(hwnd);
+	//RemoveTrayIcon(hwnd);
 }
 
 void TrayManager::RefreshWindowInTray(HWND hwnd)

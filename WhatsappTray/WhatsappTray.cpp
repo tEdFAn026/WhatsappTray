@@ -139,7 +139,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		MessageBox(NULL, "Error creating window", "WhatsappTray", MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	trayManager = std::make_unique<TrayManager>(_hwndWhatsappTray);
+	trayManager = std::make_unique<TrayManager>(_hwndWhatsappTray, _hwndWhatsapp);
 
 	// Send a WM_WHATSAPP_API_NEW_MESSAGE-message when a new WhatsApp-message has arrived.
 	WhatsAppApi::NotifyOnNewMessage([]() { PostMessageA(_hwndWhatsappTray, WM_WHATSAPP_API_NEW_MESSAGE, 0, 0); });
