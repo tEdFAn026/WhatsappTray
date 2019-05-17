@@ -47,6 +47,8 @@ constexpr auto CompileConfiguration = "Release";
 #undef MODULE_NAME
 #define MODULE_NAME "WhatsappTray"
 
+const UINT WM_TASKBARCREATED = ::RegisterWindowMessage(TEXT("TaskbarCreated"));
+
 static HINSTANCE _hInstance;
 static HMODULE _hLib;
 static HWND _hwndWhatsappTray;
@@ -408,12 +410,17 @@ LRESULT CALLBACK WhatsAppTrayWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		Logger::Info(MODULE_NAME "::WhatsAppTrayWndProc() - QuitMessage posted.");
 		break;
 	case WM_WHATSAPP_API_NEW_MESSAGE:
-		
-		Logger::Info(MODULE_NAME "::WhatsAppTrayWndProc() - WM_WHATSAPP_API_NEW_MESSAGE");
-		messagesSinceMinimize++;
-		char messagesSinceMinimizeBuffer[20] = { 0 };
-		snprintf(messagesSinceMinimizeBuffer, sizeof(messagesSinceMinimizeBuffer), "%d", messagesSinceMinimize);
-		trayManager->SetIcon(_hwndWhatsapp, messagesSinceMinimizeBuffer);
+		{
+			Logger::Info(MODULE_NAME "::WhatsAppTrayWndProc() - WM_WHATSAPP_API_NEW_MESSAGE");
+			messagesSinceMinimize++;
+			char messagesSinceMinimizeBuffer[20] = { 0 };
+			snprintf(messagesSinceMinimizeBuffer, sizeof(messagesSinceMinimizeBuffer), "%d", messagesSinceMinimize);
+			trayManager->SetIcon(_hwndWhatsapp, messagesSinceMinimizeBuffer);
+		}
+		break;
+	default:
+		if (msg == WM_TASKBARCREATED)
+			trayManager->AddWindowToTray(_hwndWhatsapp);
 		break;
 	}
 
